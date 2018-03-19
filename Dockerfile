@@ -45,6 +45,10 @@ RUN a2enmod rewrite
 # Installation de HTTP2
 RUN apt-get --only-upgrade install -y apache2
 
+RUN apt-get update -y
+RUN apt-get upgrade -y
+RUN apt-get install apache2 -y
+
 # On active HTTP2
 RUN a2enmod http2
 RUN echo "Protocols h2 http/1.1" >> $APACHE_CONF_FILE
