@@ -71,6 +71,9 @@ COPY conf/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY script/run.sh /run.sh
 
+VOLUME /var/www/html
+VOLUME /etc/apache2/sites-available
+
 RUN chmod 755 /run.sh
 
 COPY conf/config /config
