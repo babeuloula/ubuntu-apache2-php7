@@ -76,5 +76,6 @@ RUN chmod 755 /run.sh
 COPY conf/config /config
 
 EXPOSE 80
+EXPOSE 443
 
 CMD ["/run.sh"]
