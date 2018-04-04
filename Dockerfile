@@ -61,6 +61,11 @@ RUN echo "post_max_size = 4096M" >> $PHP_CONF_FILE
 RUN echo "session.gc_maxlifetime = 86400" >> $PHP_CONF_FILE
 
 
+# On set la timezone en Europe
+RUN echo "Europe/Paris" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
+
+
 COPY conf/000-default.conf /etc/apache2/sites-available/000-default.conf
 COPY conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY script/run.sh /run.sh
