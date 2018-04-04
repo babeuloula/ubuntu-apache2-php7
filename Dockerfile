@@ -14,12 +14,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         && apt-get clean \
         && rm -fr /var/lib/apt/lists/*
 
-RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
-RUN LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2
+RUN LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php && LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/apache2
 
-RUN apt-key update
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN apt-key update && apt-get update && apt-get install -y --no-install-recommends \
                 libapache2-mod-php7.2 \
                 php7.2 \
                 php7.2-cli \
@@ -44,11 +41,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN a2enmod rewrite
 
 # Installation de HTTP2
-RUN apt-get --only-upgrade install -y apache2
-
-RUN apt-get update -y
-RUN apt-get upgrade -y
-RUN apt-get install apache2 -y
+RUN apt-get --only-upgrade install -y apache2 && apt-get update -y && apt-get upgrade -y && apt-get install apache2 -y
 
 # On active HTTP2
 RUN a2enmod http2
