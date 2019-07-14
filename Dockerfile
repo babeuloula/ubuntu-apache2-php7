@@ -39,6 +39,7 @@ RUN apt-key update && apt-get update && apt-get install -y --no-install-recommen
         && rm -fr /var/lib/apt/lists/*
 
 RUN a2enmod rewrite
+RUN a2enmod expires
 
 # Installation de HTTP2
 RUN apt-get --only-upgrade install -y apache2 && apt-get update -y && apt-get upgrade -y && apt-get install apache2 -y
