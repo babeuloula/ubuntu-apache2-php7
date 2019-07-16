@@ -1,0 +1,42 @@
+version: '3.5'
+
+services:
+
+  # Base de données
+  mysql:
+    container_name: ${CONTAINER_DB_NAME:-db_container}
+    image: mysql:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-root}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-docker}
+      MYSQL_USER: ${MYSQL_USER:-docker}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-docker}
+      TZ: ${TZ:-"Europe/Paris"}
+    volumes:
+      - ${DB_PATH:-mysql}:/var/lib/mysql
+
+  # Serveur web
+  http:
+    depends_on:
+      - mysql
+    container_name: ${CONTAINER_NAME:-container}
+    build:
+      context: ./
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    volumes:
+      - ${CORE_PATH:-./}:/var/www/html
+      - ${CONF_PATH:-./}:/etc/apache2/sites-available
+    environment:
+      DB_HOST: "${CONTAINER_DB_NAME}:3306"
+      DB_NAME: "${MYSQL_DATABASE}"
+      DB_USER: "${MYSQL_USER}"
+      DB_PASSWORD: "${MYSQL_PASSWORD}"
+      VIRTUAL_HOST: "${DOMAINS}"
+      LETSENCRYPT_HOST: "${DOMAINS}"
+      LETSENCRYPT_EMAIL: "${LETSENCRYPT_EMAIL}"
+
+volumes:
+  mysql:
